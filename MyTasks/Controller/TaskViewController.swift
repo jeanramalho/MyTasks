@@ -19,10 +19,14 @@ class TaskViewController: UIViewController {
     private func setup(){
         
         self.title = "Task"
-        
+        setContentView()
         hideKeyboardTouchOut()
         setHierarchy()
         setConstraints()
+    }
+    
+    private func setContentView(){
+        contentView.saveButton.addTarget(self, action: #selector(saveTask), for: .touchUpInside)
     }
     
     private func setHierarchy(){
@@ -44,6 +48,14 @@ class TaskViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func saveTask(){
+        let newTask = contentView.taskTextView.text
+        
+        CoreDataManager.shared.saveTask(task: newTask ?? "", dataHora: Date())
+        
+        contentView.taskTextView.text = ""
     }
     
     @objc private func hideKeyboard(){

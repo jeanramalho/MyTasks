@@ -27,6 +27,10 @@ class MyTasksViewController: UIViewController {
         setup()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        loadTasks()
+    }
+    
     private func setup(){
         
         loadTasks()
@@ -100,11 +104,13 @@ class MyTasksViewController: UIViewController {
 
 extension MyTasksViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = UITableViewCell()
+        cell.textLabel?.text = tasks[indexPath.row].task
+        return cell
     }
     
     
