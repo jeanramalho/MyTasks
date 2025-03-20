@@ -60,8 +60,10 @@ class MyTasksViewController: UIViewController {
         let taskTableView = contentView.tasksTableView
         self.title = "Task"
         
+        taskTableView.register(TasksTableViewCell.self, forCellReuseIdentifier: TasksTableViewCell.identifier)
         taskTableView.dataSource = self
         taskTableView.delegate = self
+        taskTableView.rowHeight = UITableView.automaticDimension
     }
     
     private func configureNavigationBar(){
@@ -108,8 +110,21 @@ extension MyTasksViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = tasks[indexPath.row].task
+        let atualTask = tasks[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TasksTableViewCell.identifier, for: indexPath) as? TasksTableViewCell else {return UITableViewCell()}
+        
+        cell.taskLabel.text = atualTask.task
+        
+        let dataFormatada = DateFormatter()
+        dataFormatada.dateFormat = "dd/MM/yyyy"
+        let data = dataFormatada.string(from: atualTask.dataHora ?? Date())
+        
+        let horaFormatada = DateFormatter()
+        horaFormatada.dateFormat = "HH:mm"
+        let hora = horaFormatada.string(from: atualTask.dataHora ?? Date())
+        
+        cell.dataLabel.text = data
+        cell.horaLabel.text = hora
         return cell
     }
     
