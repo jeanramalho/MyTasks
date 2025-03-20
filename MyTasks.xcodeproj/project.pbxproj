@@ -20,6 +20,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				"Model/Tasks+CoreDataClass.swift",
+				"Model/Tasks+CoreDataProperties.swift",
 			);
 			target = CEE05B162D8C4D3B0030F9A3 /* MyTasks */;
 		};

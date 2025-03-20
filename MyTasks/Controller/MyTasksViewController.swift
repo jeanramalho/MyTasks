@@ -9,7 +9,8 @@ import UIKit
 
 class MyTasksViewController: UIViewController {
     
-    let contentView: MyTasksView = MyTasksView()
+    private let contentView: MyTasksView = MyTasksView()
+    private var tasks: [Tasks] = []
     
     lazy var addTaskButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -28,6 +29,7 @@ class MyTasksViewController: UIViewController {
     
     private func setup(){
         
+        loadTasks()
         setupContentView()
         configureNavigationBar()
         setHierarchy()
@@ -84,10 +86,16 @@ class MyTasksViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = addTaskButton
     }
     
+    private func loadTasks(){
+        self.tasks = CoreDataManager.shared.fetchTasks()
+        contentView.tasksTableView.reloadData()
+    }
+    
     @objc private func addTask(){
         let taskViewController = TaskViewController()
         self.navigationController?.pushViewController(taskViewController, animated: true)
     }
+    
 }
 
 extension MyTasksViewController: UITableViewDelegate, UITableViewDataSource {
