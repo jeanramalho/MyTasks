@@ -11,6 +11,8 @@ class TaskViewController: UIViewController {
     
     let contentView: TaskView = TaskView()
     
+    var idTask: UUID?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -51,11 +53,22 @@ class TaskViewController: UIViewController {
     }
     
     @objc private func saveTask(){
-        let newTask = contentView.taskTextView.text
+        guard let newTask = contentView.taskTextView.text else {return}
         
-        CoreDataManager.shared.saveTask(task: newTask ?? "", dataHora: Date())
+        if self.idTask != nil {
+            
+            if let taskId = idTask {
+                CoreDataManager.shared.updateTask(id: taskId, newTask: newTask, newDate: Date())
+            }
+            
+            
+        } else {
+            CoreDataManager.shared.saveTask(task: newTask, dataHora: Date())
+            
+            contentView.taskTextView.text = ""
+        }
         
-        contentView.taskTextView.text = ""
+       
     }
     
     @objc private func hideKeyboard(){

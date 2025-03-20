@@ -113,5 +113,26 @@ extension MyTasksViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            guard let taskId = tasks[indexPath.row].id else {return}
+            CoreDataManager.shared.deleteTask(id: taskId)
+            loadTasks()
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let taskView = TaskViewController()
+        let taskSelected = tasks[indexPath.row].task
+        guard let taskId = tasks[indexPath.row].id else {return}
+        
+        taskView.contentView.taskTextView.text = taskSelected
+        taskView.idTask = taskId
+        
+        self.navigationController?.pushViewController(taskView, animated: true)
+    }
+    
     
 }
