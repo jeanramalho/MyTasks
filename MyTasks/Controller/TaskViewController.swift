@@ -1,5 +1,5 @@
 //
-//  SplashScreenViewController.swift
+//  TaskViewController.swift
 //  MyTasks
 //
 //  Created by Jean Ramalho on 20/03/25.
@@ -7,9 +7,9 @@
 import Foundation
 import UIKit
 
-class SplashScreenViewController: UIViewController {
+class TaskViewController: UIViewController {
     
-    let contentView: SplashScreenView = SplashScreenView()
+    let contentView: TaskView = TaskView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +18,9 @@ class SplashScreenViewController: UIViewController {
     
     private func setup(){
         
-        shoHomeViewController()
+        self.title = "Task"
+        
+        hideKeyboardTouchOut()
         setHierarchy()
         setConstraints()
     }
@@ -38,12 +40,13 @@ class SplashScreenViewController: UIViewController {
         ])
     }
     
-    private func shoHomeViewController(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            
-            let homeViewController = MyTasksViewController()
-            
-            self.navigationController?.setViewControllers([homeViewController], animated: true)
-        }
+    private func hideKeyboardTouchOut(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func hideKeyboard(){
+        view.endEditing(true)
     }
 }

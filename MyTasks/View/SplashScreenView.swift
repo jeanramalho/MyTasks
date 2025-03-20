@@ -9,6 +9,15 @@ import UIKit
 
 class SplashScreenView: UIView {
     
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 44, weight: .heavy)
+        label.textColor = .white
+        label.text = "My Tasks"
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -20,17 +29,20 @@ class SplashScreenView: UIView {
     
     private func setupUI(){
         
+        backgroundColor = .systemBlue
+        
         setHierarchy()
         setConstraints()
     }
     
     private func setHierarchy(){
-        
+        addSubview(titleLabel)
     }
     
     private func setConstraints(){
         NSLayoutConstraint.activate([
-            
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
 }
