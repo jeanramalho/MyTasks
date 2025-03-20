@@ -55,17 +55,21 @@ class TaskViewController: UIViewController {
     @objc private func saveTask(){
         guard let newTask = contentView.taskTextView.text else {return}
         
-        if self.idTask != nil {
-            
-            if let taskId = idTask {
-                CoreDataManager.shared.updateTask(id: taskId, newTask: newTask, newDate: Date())
-            }
-            
-            
+        if newTask == "" {
+           print("sem dados para salvar")
         } else {
-            CoreDataManager.shared.saveTask(task: newTask, dataHora: Date())
-            
-            contentView.taskTextView.text = ""
+            if self.idTask != nil {
+                
+                if let taskId = idTask {
+                    CoreDataManager.shared.updateTask(id: taskId, newTask: newTask, newDate: Date())
+                }
+                
+                
+            } else {
+                CoreDataManager.shared.saveTask(task: newTask, dataHora: Date())
+                
+                contentView.taskTextView.text = ""
+            }
         }
         
        

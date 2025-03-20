@@ -117,9 +117,20 @@ extension MyTasksViewController: UITableViewDelegate, UITableViewDataSource {
         
         if editingStyle == .delete {
             guard let taskId = tasks[indexPath.row].id else {return}
+            //apaga do banco de dados do core data
             CoreDataManager.shared.deleteTask(id: taskId)
-            loadTasks()
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            //apaga do array local
+            tasks.remove(at: indexPath.row)
+            
+            //apaga a celula com animacao
+            tableView.performBatchUpdates({
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }){_ in
+                self.loadTasks()
+            }
+           
+
         }
     }
     
