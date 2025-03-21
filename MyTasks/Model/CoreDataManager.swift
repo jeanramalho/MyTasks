@@ -65,6 +65,8 @@ class CoreDataManager {
     //MARK: Busca tarefa
     func fetchTasks() -> [Tasks] {
         let fetchRequest: NSFetchRequest<Tasks> = Tasks.fetchRequest()
+        let order: NSSortDescriptor = NSSortDescriptor(key: "dataHora", ascending: false)
+        fetchRequest.sortDescriptors = [order]
         
         do {
             let tasks = try context.fetch(fetchRequest)
